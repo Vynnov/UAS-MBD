@@ -27,42 +27,49 @@
     </div>
 
     <!-- Tabs -->
-    <div class="flex border border-gray-500 rounded-lg overflow-hidden mb-4"><a href="login.html">
+    <div class="flex border border-gray-500 rounded-lg overflow-hidden mb-4"><a href="login.php">
     <button class="px-[54px] py-2 text-white font-medium hover:bg-gray-700">Login</button>
     </a>
+    <a href="register.php">
     <button class="bg-gray-800 px-[54px] py-2 text-white font-medium focus:outline-none">Register</button>
+    </a>
     </div>
 
 
     <!-- Form Card -->
-    <div class="bg-gray-800 border border-gray-600 rounded-xl p-6 w-80">
-      <h2 class="text-lg font-semibold mb-4">Lengkapi Data Diri Anda</h2>
-      
-      <form action="#" method="POST" class="space-y-4">
-        <div>
-          <label class="block text-sm mb-1">Nama Anda</label>
-          <input type="text" placeholder="Masukan nama anda" class="w-full px-3 py-2 bg-gray-900 text-white border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-        </div>
-        <div>
-          <label class="block text-sm mb-1">NIM</label>
-          <input type="text" placeholder="Masukan NIM anda" class="w-full px-3 py-2 bg-gray-900 text-white border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-        </div>
-        <div>
-          <label class="block text-sm mb-1">Program Studi</label>
-          <input type="text" placeholder="Masukan prodi anda" class="w-full px-3 py-2 bg-gray-900 text-white border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-        </div>
-        <div>
-          <label class="block text-sm mb-1">Nomor WhatsApp</label>
-          <input type="text" placeholder="Masukan nomor whatsapp anda" class="w-full px-3 py-2 bg-gray-900 text-white border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-        </div>
-      <a href="register2.html" class="w-full mt-4 bg-blue-200 hover:bg-blue-300 text-black font-semibold py-2 rounded-md flex items-center justify-center space-x-2">
-  <span>Masuk</span>
-  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7" />
-  </svg>
-</a>
-
-      </form>
+    <form action="register.php" method="POST" class="space-y-4">
+      <div>
+        <label class="block text-sm mb-1">Nama Anda</label>
+        <input name="nama" type="text" placeholder="Masukan nama anda" class="w-full px-3 py-2 bg-gray-900 text-white border border-gray-700 rounded-md" required>
+      </div>
+      <div>
+        <label class="block text-sm mb-1">NIM</label>
+        <input name="nim" type="text" placeholder="Masukan NIM anda" class="w-full px-3 py-2 bg-gray-900 text-white border border-gray-700 rounded-md" required>
+      </div>
+      <div>
+        <label class="block text-sm mb-1">Program Studi</label>
+        <input name="prodi" type="text" placeholder="Masukan prodi anda" class="w-full px-3 py-2 bg-gray-900 text-white border border-gray-700 rounded-md" required>
+      </div>
+      <div>
+        <label class="block text-sm mb-1">Nomor WhatsApp</label>
+        <input name="no_hp" type="text" placeholder="Masukan nomor whatsapp anda" class="w-full px-3 py-2 bg-gray-900 text-white border border-gray-700 rounded-md" required>
+      </div>
+      <div>
+        <label class="block text-sm mb-1">Email</label>
+        <input name="email" type="email" placeholder="Masukan email anda" class="w-full px-3 py-2 bg-gray-900 text-white border border-gray-700 rounded-md" required>
+      </div>
+      <div>
+        <label class="block text-sm mb-1">Password</label>
+        <input name="password" type="password" placeholder="Masukan password anda" class="w-full px-3 py-2 bg-gray-900 text-white border border-gray-700 rounded-md" required>
+      </div>
+    
+      <button type="submit" class="w-full mt-4 bg-blue-200 hover:bg-blue-300 text-black font-semibold py-2 rounded-md flex items-center justify-center space-x-2">
+        <span>Daftar</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
+      </button>
+    </form>    
     </div>
   </section>
 
