@@ -18,7 +18,7 @@ if ($result->num_rows > 0) {
     $_SESSION['nim'] = $user['NIM'];
     $_SESSION['nama'] = $user['nama'];
 
-    header("Location: daftar_peminjaman.php");
+    header("Location: daftar_ruangan.php");
     exit();
 } else {
     echo "<script>alert('Login gagal! Email atau password salah.'); window.location.href='login.html';</script>";
