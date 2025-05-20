@@ -1,26 +1,43 @@
 <?php
 session_start();
-$conn = new mysqli("localhost", "root", "", "peminjaman_db");
+require 'koneksi.php';
 
-if ($conn->connect_error) {
-    die("Koneksi gagal: " . $conn->connect_error);
-}
+$error = "";
 
-$email = $_POST['email'];
-$password = $_POST['password'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $email = $_POST['email'];
+  $password = $_POST['password'];
 
-// Cek di tabel `user`
-$query = "SELECT * FROM user WHERE email='$email' AND password='$password'";
-$result = $conn->query($query);
+  // Cek di tabel user/mahasiswa
+  $stmt = $conn->prepare("SELECT * FROM user WHERE email = ? AND password = ?");
+  $stmt->bind_param("ss", $email, $password);
+  $stmt->execute();
+  $result = $stmt->get_result();
 
-if ($result->num_rows > 0) {
+  if ($result->num_rows === 1) {
     $user = $result->fetch_assoc();
+    $_SESSION['role'] = 'user';
     $_SESSION['nim'] = $user['NIM'];
     $_SESSION['nama'] = $user['nama'];
+    header("Location: dashboard_user.php");
+    exit;
+  }
 
-    header("Location: daftar_ruangan.php");
-    exit();
-} else {
-    echo "<script>alert('Login gagal! Email atau password salah.'); window.location.href='login.html';</script>";
+  // Jika tidak ditemukan, cek di administrator
+  $stmt = $conn->prepare("SELECT * FROM administrator WHERE email = ? AND password = ?");
+  $stmt->bind_param("ss", $email, $password);
+  $stmt->execute();
+  $result = $stmt->get_result();
+
+  if ($result->num_rows === 1) {
+    $admin = $result->fetch_assoc();
+    $_SESSION['role'] = 'admin';
+    $_SESSION['admin_nip'] = $admin['NIP'];
+    $_SESSION['admin_nama'] = $admin['nama'];
+    header("Location: admin_dashboard.php");
+    exit;
+  }
+
+  $error = "Email atau password salah!";
 }
 ?>
