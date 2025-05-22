@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['role'] = 'user';
     $_SESSION['nim'] = $user['NIM'];
     $_SESSION['nama'] = $user['nama'];
-    header("Location: dashboard_user.php");
+    header("Location: daftar_ruangan.php");
     exit;
   }
 

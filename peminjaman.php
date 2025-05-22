@@ -59,7 +59,6 @@ $lastNumber = (int) substr($last, 1); // Ambil angka dari kode
 $newNumber = $lastNumber + 1;
 $kode_peminjaman = 'P' . str_pad($newNumber, 3, '0', STR_PAD_LEFT); // Misal: P011
 
-
 $stmt = $conn->prepare("INSERT INTO peminjaman (kode_peminjaman, kode_ruangan, NIM, waktu_mulai, waktu_selesai, tanggal_peminjaman)
                         VALUES (?, ?, ?, ?, ?, ?)");
 $stmt->bind_param("ssssss", $kode_peminjaman, $kode_ruangan, $nim, $mulai, $selesai, $tanggal);

@@ -13,9 +13,9 @@
   <nav class="flex justify-between items-center p-6 bg-gradient-to-b from-gray-800 to-gray-900">
     <h1 class="text-xl font-semibold">Sistem Peminjaman Ruangan</h1>
     <ul class="flex space-x-6 text-sm">
-      <li><a href="daftar_ruangan.php" class="hover:text-blue-400">Daftar Ruangan</a></li>
+      <!-- <li><a href="daftar_ruangan.php" class="hover:text-blue-400">Daftar Ruangan</a></li>
       <li><a href="riwayat_peminjaman.html" class="hover:text-blue-400">Riwayat Peminjaman</a></li>
-      <li><a href="#" class="hover:text-blue-400">Contact</a></li>
+      <li><a href="#" class="hover:text-blue-400">Contact</a></li> -->
       <li><a href="login.php" class="hover:text-blue-400">Login</a></li>
     </ul>
   </nav>

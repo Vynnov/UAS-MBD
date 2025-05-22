@@ -12,10 +12,10 @@
   <nav class="flex items-center justify-between px-8 py-4 bg-gray-800 shadow">
     <div class="text-xl font-semibold">Sistem Peminjaman Ruangan</div>
     <ul class="flex space-x-6 text-sm">
-      <li><a href="#" class="hover:text-blue-400">Home</a></li>
-      <li><a href="#" class="hover:text-blue-400">About Us</a></li>
-      <li><a href="#" class="hover:text-blue-400">Contact</a></li>
-      <li><a href="#" class="hover:text-blue-400">Login</a></li>
+      <li><a href="daftar_ruangan.php" class="hover:text-blue-400">Daftar Ruangan</a></li>
+      <li><a href="riwayat_peminjaman.php" class="hover:text-blue-400">Riwayat Peminjaman</a></li>
+      <!-- <li><a href="#" class="hover:text-blue-400 font-bold">Contact</a></li> -->
+      <li><a href="logout.php" class="hover:text-blue-400">Logout</a></li>
     </ul>
   </nav>
 
