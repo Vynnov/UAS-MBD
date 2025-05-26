@@ -1,3 +1,28 @@
+<?php
+$conn = new mysqli("localhost", "root", "", "peminjaman_db");
+$no = 1;
+$query = "
+SELECT 
+  p.kode_peminjaman,
+  r.nama_ruangan,
+  u.nama AS nama_peminjam,
+  rp.keterangan,
+  p.waktu_mulai,
+  p.waktu_selesai,
+  CASE 
+    WHEN p.status = 'Approved' AND NOW() BETWEEN p.waktu_mulai AND p.waktu_selesai THEN 'Used'
+    WHEN p.status = 'Approved' AND NOW() > p.waktu_selesai THEN 'Selesai'
+    ELSE p.status
+  END AS status
+FROM peminjaman p
+LEFT JOIN ruangan r ON p.kode_ruangan = r.kode_ruangan
+LEFT JOIN user u ON p.NIM = u.NIM
+LEFT JOIN riwayat_peminjaman rp ON rp.kode_peminjaman = p.kode_peminjaman
+ORDER BY p.waktu_mulai DESC
+";
+include 'update_riwayat.php';
+$result = $conn->query($query);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +32,29 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-900 text-white">
+  <!-- Navbar -->
+  <nav class="flex items-center justify-between px-8 py-4 bg-gray-800 shadow">
+  <div class="text-xl font-semibold">Sistem Peminjaman Ruangan</div>
+  <ul class="flex space-x-6 text-sm items-center">
+    <li><a href="daftar_ruangan.php" class="hover:text-blue-400">Daftar Ruangan</a></li>
+    <li><a href="riwayat_peminjaman.php" class="hover:text-blue-400">Riwayat Peminjaman</a></li>
+    <li><a href="daftar_peminjaman.php" class="hover:text-blue-400">Daftar Peminjaman</a></li>
+    
+    <!-- Dropdown Procedure -->
+    <li class="relative group">
+      <button class="hover:text-blue-400 focus:outline-none">Procedure</button>
+      <ul class="absolute z-10 hidden group-hover:block bg-gray-700 text-white rounded shadow mt-1 min-w-max">
+        <li><a href="procedure_ismul.php" class="block px-4 py-2 hover:bg-gray-600">Ismul Adjham</a></li>
+        <li><a href="procedure_nadim.php" class="block px-4 py-2 hover:bg-gray-600">Nadim Fadhilah</a></li>
+        <li><a href="procedure_judith.php" class="block px-4 py-2 hover:bg-gray-600">Judithya Angeline</a></li>
+        <li><a href="procedure_kevin.php" class="block px-4 py-2 hover:bg-gray-600">Kevin Novaldy</a></li>
+      </ul>
+    </li>
+
+    <li><a href="logout.php" class="hover:text-blue-400">Logout</a></li>
+  </ul>
+</nav>
+
   <div class="p-6">
     <h1 class="text-3xl font-bold text-center mb-4">Daftar Peminjaman</h1>
 
@@ -25,52 +73,27 @@
           </tr>
         </thead>
         <tbody id="tableBody">
-        <?php
-$conn = new mysqli("localhost", "root", "", "peminjaman_db");
-$no = 1;
-$query = "
-SELECT 
-  r.nama_ruangan,
-  u.nama AS nama_peminjam,
-  rp.keterangan,
-  p.waktu_mulai,
-  p.waktu_selesai,
-  rp.kondisi_ruangan
-FROM peminjaman p
-LEFT JOIN ruangan r ON p.kode_ruangan = r.kode_ruangan
-LEFT JOIN user u ON p.NIM = u.NIM
-LEFT JOIN riwayat_peminjaman rp ON rp.kode_peminjaman = p.kode_peminjaman
-";
-
-$result = $conn->query($query);
-while ($row = $result->fetch_assoc()) {
-    echo "<tr class='border-b border-gray-700'>";
-    echo "<td class='py-2 px-3'>{$no}</td>";
-    echo "<td class='py-2 px-3'>{$row['nama_ruangan']}</td>";
-    echo "<td class='py-2 px-3'>{$row['nama_peminjam']}</td>";
-    echo "<td class='py-2 px-3'>{$row['keterangan']}</td>";
-    echo "<td class='py-2 px-3'>{$row['waktu_mulai']}</td>";
-    echo "<td class='py-2 px-3'>{$row['waktu_selesai']}</td>";
-    echo "<td class='py-2 px-3'><span class='bg-red-500 px-2 py-1 rounded'>{$row['kondisi_ruangan']}</span></td>";
-    echo "<td class='py-2 px-3'><button onclick='openModal(this)' class='bg-blue-300 text-black px-3 py-1 rounded'>Edit</button></td>";
-    echo "</tr>";
-    $no++;
-}
-$conn->close();
-?>
-          <tr class="border-b border-gray-700">
-            <td class="py-2 px-3">1</td>
-            <td class="py-2 px-3">Lab Komputer 1</td>
-            <td class="py-2 px-3">Ismul Adjham</td>
-            <td class="py-2 px-3">Digunakan untuk praktikum dasar pemrograman</td>
-            <td class="py-2 px-3">2025-05-01 08:00</td>
-            <td class="py-2 px-3">2025-05-01 10:00</td>
-            <td class="py-2 px-3"><span class="bg-red-500 px-2 py-1 rounded">Used</span></td>
-            <td class="py-2 px-3">
-              <button onclick="openModal(this)" class="bg-blue-300 text-black px-3 py-1 rounded">Edit</button>
-            </td>
-          </tr>
-          <!-- Tambahkan baris lain di sini jika perlu -->
+<?php while ($row = $result->fetch_assoc()) : ?>
+  <tr class='border-b border-gray-700'>
+    <td class='py-2 px-3'><?= $no++ ?></td>
+    <td class='py-2 px-3'><?= $row['nama_ruangan'] ?></td>
+    <td class='py-2 px-3'><?= $row['nama_peminjam'] ?></td>
+    <td class='py-2 px-3'><?= $row['keterangan'] ?></td>
+    <td class='py-2 px-3'><?= $row['waktu_mulai'] ?></td>
+    <td class='py-2 px-3'><?= $row['waktu_selesai'] ?></td>
+    <td class='py-2 px-3'>
+      <span class='px-2 py-1 rounded
+        <?= $row['status'] == 'Used' ? 'bg-red-500' : ($row['status'] == 'Selesai' ? 'bg-green-500' : 'bg-yellow-500') ?>'>
+        <?= $row['status'] ?>
+      </span>
+    </td>
+    <td class='py-2 px-3'>
+      <button onclick='openModal(this)' 
+              data-kode="<?= $row['kode_peminjaman'] ?>"
+              class='bg-blue-300 text-black px-3 py-1 rounded'>Edit</button>
+    </td>
+  </tr>
+<?php endwhile; ?>
         </tbody>
       </table>
     </div>
@@ -84,6 +107,7 @@ $conn->close();
         <button onclick="closeModal()" class="text-red-400 font-bold text-xl">×</button>
       </div>
       <form id="editForm" onsubmit="saveChanges(event)">
+        <input type="hidden" id="kodePeminjamanInput">
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block text-sm mb-1">Nama Peminjam</label>
@@ -116,6 +140,7 @@ $conn->close();
       currentRow = button.closest("tr");
       const cells = currentRow.querySelectorAll("td");
 
+      document.getElementById("kodePeminjamanInput").value = button.getAttribute("data-kode");
       document.getElementById("namaInput").value = cells[2].textContent.trim();
       document.getElementById("keteranganInput").value = cells[3].textContent.trim();
       document.getElementById("mulaiInput").value = cells[4].textContent.trim().replace(" ", "T");
@@ -131,6 +156,7 @@ $conn->close();
     function saveChanges(e) {
       e.preventDefault();
 
+      const kode = document.getElementById("kodePeminjamanInput").value;
       const nama = document.getElementById("namaInput").value;
       const ket = document.getElementById("keteranganInput").value;
       const mulai = document.getElementById("mulaiInput").value.replace("T", " ");
@@ -143,27 +169,19 @@ $conn->close();
       cells[5].textContent = selesai;
 
       fetch("update_peminjaman.php", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      nama: nama,
-      keterangan: ket,
-      mulai: mulai,
-      selesai: selesai
-      // Tambahkan kode_peminjaman jika tersedia
-    })
-  })
-  .then(res => res.text())
-  .then(msg => {
-    console.log(msg);
-    alert("Data berhasil diperbarui!");
-  })
-  .catch(err => {
-    console.error("Gagal:", err);
-    alert("Terjadi kesalahan.");
-  });
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ kode, nama, keterangan: ket, mulai, selesai })
+      })
+      .then(res => res.text())
+      .then(msg => {
+        console.log(msg);
+        alert("Data berhasil diperbarui!");
+      })
+      .catch(err => {
+        console.error("Gagal:", err);
+        alert("Terjadi kesalahan.");
+      });
 
       closeModal();
     }

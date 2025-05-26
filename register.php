@@ -24,7 +24,7 @@ $query = "INSERT INTO user (NIM, nama, prodi, no_hp, email, password)
           VALUES ('$nim', '$nama', '$prodi', '$no_hp', '$email', '$password')";
 
 if ($conn->query($query) === TRUE) {
-    echo "<script>alert('Registrasi berhasil! Silakan login.'); window.location='login.html';</script>";
+    echo "<script>alert('Registrasi berhasil! Silakan login.'); window.location='index.php';</script>";
 } else {
     echo "Gagal registrasi: " . $conn->error;
 }

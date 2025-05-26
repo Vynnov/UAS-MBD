@@ -1,7 +1,7 @@
 <?php
 session_start();
 require 'koneksi.php';
-
+include 'update_riwayat.php';
 // Hanya boleh diakses jika sudah login
 if (!isset($_SESSION['role'])) {
   header("Location: login.php");
@@ -27,14 +27,26 @@ $result = $conn->query($sql);
 <body class="bg-gray-900 text-white min-h-screen">
   <!-- Navbar -->
   <nav class="flex items-center justify-between px-8 py-4 bg-gray-800 shadow">
-    <div class="text-xl font-semibold">Sistem Peminjaman Ruangan</div>
-    <ul class="flex space-x-6 text-sm">
-      <li><a href="daftar_ruangan.php" class="hover:text-blue-400">Daftar Ruangan</a></li>
-      <li><a href="riwayat_peminjaman.php" class="hover:text-blue-400">Riwayat Peminjaman</a></li>
-      <!-- <li><a href="#" class="hover:text-blue-400 font-bold">Contact</a></li> -->
-      <li><a href="logout.php" class="hover:text-blue-400">Logout</a></li>
-    </ul>
-  </nav>
+  <div class="text-xl font-semibold">Sistem Peminjaman Ruangan</div>
+  <ul class="flex space-x-6 text-sm items-center">
+    <li><a href="daftar_ruangan.php" class="hover:text-blue-400">Daftar Ruangan</a></li>
+    <li><a href="riwayat_peminjaman.php" class="hover:text-blue-400">Riwayat Peminjaman</a></li>
+    <li><a href="daftar_peminjaman.php" class="hover:text-blue-400">Daftar Peminjaman</a></li>
+    
+    <!-- Dropdown Procedure -->
+    <li class="relative group">
+      <button class="hover:text-blue-400 focus:outline-none">Procedure</button>
+      <ul class="absolute z-10 hidden group-hover:block bg-gray-700 text-white rounded shadow mt-1 min-w-max">
+        <li><a href="procedure_ismul.php" class="block px-4 py-2 hover:bg-gray-600">Ismul Adjham</a></li>
+        <li><a href="procedure_nadim.php" class="block px-4 py-2 hover:bg-gray-600">Nadim Fadhilah</a></li>
+        <li><a href="procedure_judith.php" class="block px-4 py-2 hover:bg-gray-600">Judithya Angeline</a></li>
+        <li><a href="procedure_kevin.php" class="block px-4 py-2 hover:bg-gray-600">Kevin Novaldy</a></li>
+      </ul>
+    </li>
+
+    <li><a href="logout.php" class="hover:text-blue-400">Logout</a></li>
+  </ul>
+</nav>
   <div class="max-w-6xl mx-auto p-6">
     <h1 class="text-2xl font-bold mb-6">Riwayat Peminjaman Ruangan</h1>
 

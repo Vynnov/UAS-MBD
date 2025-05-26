@@ -10,9 +10,18 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
 require 'koneksi.php';
 
 // Ambil data peminjaman dari database
-$sql = "SELECT p.kode_peminjaman, r.nama_ruangan, p.NIM, p.waktu_mulai, p.waktu_selesai, p.status
+$sql = "SELECT 
+          p.kode_peminjaman, 
+          r.nama_ruangan, 
+          p.NIM, 
+          p.waktu_mulai, 
+          p.waktu_selesai, 
+          p.status,
+          p.NIP,
+          a.nama
         FROM peminjaman p
         JOIN ruangan r ON r.kode_ruangan = p.kode_ruangan
+        LEFT JOIN administrator a ON p.NIP = a.NIP
         ORDER BY p.tanggal_peminjaman DESC";
 $result = $conn->query($sql);
 ?>
@@ -29,9 +38,9 @@ $result = $conn->query($sql);
   <nav class="flex items-center justify-between px-8 py-4 bg-gray-800 shadow">
     <div class="text-xl font-semibold">Sistem Peminjaman Ruangan</div>
     <ul class="flex space-x-6 text-sm">
-      <!-- <li><a href="daftar_ruangan.php" class="hover:text-blue-400">Daftar Ruangan</a></li>
-      <li><a href="riwayat_peminjaman.html" class="hover:text-blue-400">Riwayat Peminjaman</a></li>
-      <li><a href="#" class="hover:text-blue-400 font-bold">Contact</a></li> -->
+      <li><a href="admin_dashboard.php" class="hover:text-blue-400">Home</a></li>
+      <li><a href="riwayat_peminjamanAdmin.php" class="hover:text-blue-400">Riwayat Peminjaman</a></li>
+      <!-- <li><a href="#" class="hover:text-blue-400 font-bold">Contact</a></li> -->
       <li><a href="logout_admin.php" class="hover:text-blue-400">Logout</a></li>
     </ul>
   </nav>
@@ -48,6 +57,7 @@ $result = $conn->query($sql);
             <th class="px-4 py-2 text-left">Selesai</th>
             <th class="px-4 py-2 text-left">Status</th>
             <th class="px-4 py-2 text-left">Aksi</th>
+            <th class="px-4 py-2 text-left">Nama Admin</th>
           </tr>
         </thead>
         <tbody>
@@ -69,6 +79,9 @@ $result = $conn->query($sql);
                 <?php else: ?>
                   <span class="text-sm italic text-gray-400">Sudah diverifikasi</span>
                 <?php endif; ?>
+              </td>
+              <td class="px-4 py-2">
+              <?= $row['nama'] ?? '<i>Belum diverifikasi</i>' ?>
               </td>
             </tr>
           <?php endwhile; ?>
